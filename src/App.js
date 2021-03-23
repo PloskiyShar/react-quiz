@@ -11,8 +11,8 @@ function App() {
       <Switch>
         <Route path="/auth" component={Auth} />
         <Route path="/quiz-creator" component={QuizCreator} />
-        <Route path="/quiz/:id" component={QuizList} />
-        <Route path="/" component={Quiz} />
+        <Route path="/quiz/:id" component={Quiz} />
+        <Route path="/" component={QuizList} />
       </Switch>
     </Layout>
   );
