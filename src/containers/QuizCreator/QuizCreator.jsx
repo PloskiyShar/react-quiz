@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classes from './QuizCreator.module.css';
 
 class QuizCreator extends Component {
   state = {};
