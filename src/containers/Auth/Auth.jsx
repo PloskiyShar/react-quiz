@@ -6,6 +6,7 @@ import is from 'is_js';
 
 class Auth extends Component {
   state = {
+    isFormValid: false,
     formControls: {
       email: {
         value: '',
@@ -73,8 +74,14 @@ class Auth extends Component {
 
     formControls[controlName] = control; // update local state's copy
 
+    let isFormValid = true;
+    Object.keys(formControls).forEach((name) => {
+      isFormValid = formControls[name].valid && isFormValid;
+    });
+
     this.setState({
       formControls,
+      isFormValid,
     });
   };
 
@@ -105,10 +112,18 @@ class Auth extends Component {
           <h1>Auth</h1>
           <form onSubmit={this.submitHandler} className={classes.AuthForm}>
             {this.renderInputs()}
-            <Button type="success" onClick={this.logInHandler}>
+            <Button
+              type="success"
+              onClick={this.logInHandler}
+              disabled={!this.state.isFormValid}
+            >
               Log in
             </Button>
-            <Button type="primary" onClick={this.createAccountHandler}>
+            <Button
+              type="primary"
+              onClick={this.createAccountHandler}
+              disabled={!this.state.isFormValid}
+            >
               Create account
             </Button>
           </form>
