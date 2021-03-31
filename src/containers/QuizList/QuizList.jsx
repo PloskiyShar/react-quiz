@@ -2,12 +2,14 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import Loader from '../../components/UI/Loader/Loader';
 import classes from './QuizList.module.css';
 
 class QuizList extends Component {
   state = {
     urlFirebase: 'https://react-quiz-fbe78-default-rtdb.firebaseio.com/quizes',
     quizes: [],
+    loading: true,
   };
 
   renderQuizes() {
@@ -36,6 +38,7 @@ class QuizList extends Component {
 
       this.setState({
         quizes,
+        loading: false,
       });
     } catch (error) {
       console.error(error);
@@ -47,7 +50,7 @@ class QuizList extends Component {
       <div className={classes.QuizList}>
         <div>
           <h1>List of Quizes</h1>
-          <ul>{this.renderQuizes()}</ul>
+          {this.state.loading ? <Loader /> : <ul>{this.renderQuizes()}</ul>}
         </div>
       </div>
     );
