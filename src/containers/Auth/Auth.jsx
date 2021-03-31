@@ -3,6 +3,7 @@ import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
 import classes from './Auth.module.css';
 import is from 'is_js';
+import axios from 'axios';
 
 class Auth extends Component {
   state = {
@@ -35,9 +36,45 @@ class Auth extends Component {
     },
   };
 
-  logInHandler = () => {};
+  logInHandler = async () => {
+    const API_KEY = 'AIzaSyCx1vPfNgU4ootpJ3Q3QO87FDY-cDecBvs';
+    const authData = {
+      email: this.state.formControls.email.value,
+      password: this.state.formControls.password.value,
+      returnSecureToken: true,
+    };
 
-  createAccountHandler = () => {};
+    try {
+      const response = await axios.post(
+        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`,
+        authData
+      );
+
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  createAccountHandler = async () => {
+    const API_KEY = 'AIzaSyCx1vPfNgU4ootpJ3Q3QO87FDY-cDecBvs';
+    const authData = {
+      email: this.state.formControls.email.value,
+      password: this.state.formControls.password.value,
+      returnSecureToken: true,
+    };
+
+    try {
+      const response = await axios.post(
+        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`,
+        authData
+      );
+
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   submitHandler = (event) => {
     event.preventDefault();
