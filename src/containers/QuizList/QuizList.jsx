@@ -1,3 +1,4 @@
+// import axios from 'axios';
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import classes from './QuizList.module.css';
@@ -12,6 +13,14 @@ class QuizList extends Component {
       );
     });
   }
+
+  // componentDidMount() {
+  //   axios
+  //     .get('https://react-quiz-fbe78-default-rtdb.firebaseio.com/quiz.json')
+  //     .then((response) => {
+  //       console.log(response);
+  //     });
+  // }
 
   render() {
     return (
