@@ -1,26 +1,46 @@
 // import axios from 'axios';
+import axios from 'axios';
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import classes from './QuizList.module.css';
 
 class QuizList extends Component {
+  state = {
+    urlFirebase: 'https://react-quiz-fbe78-default-rtdb.firebaseio.com/quizes',
+    quizes: [],
+  };
+
   renderQuizes() {
-    return [1, 2, 3].map((quiz, index) => {
+    return this.state.quizes.map((quiz) => {
       return (
-        <li key={index}>
-          <NavLink to={`/quiz/${quiz}`}>Test {quiz}</NavLink>
+        <li key={quiz.id}>
+          <NavLink to={`/quiz/${quiz.id}`}>{quiz.name}</NavLink>
         </li>
       );
     });
   }
 
-  // componentDidMount() {
-  //   axios
-  //     .get('https://react-quiz-fbe78-default-rtdb.firebaseio.com/quiz.json')
-  //     .then((response) => {
-  //       console.log(response);
-  //     });
-  // }
+  async componentDidMount() {
+    const { urlFirebase } = this.state;
+
+    try {
+      const response = await axios.get(`${urlFirebase}.json`);
+      const quizes = [];
+
+      Object.keys(response.data).forEach((key, index) => {
+        quizes.push({
+          id: key,
+          name: `Test №${index + 1}`,
+        });
+      });
+
+      this.setState({
+        quizes,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   render() {
     return (
