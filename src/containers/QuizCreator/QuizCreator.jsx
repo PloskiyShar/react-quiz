@@ -8,7 +8,7 @@ import {
 } from '../../form/formFramework';
 import Input from '../../components/UI/Input/Input';
 import Select from '../../components/UI/Select/Select';
-import axios from 'axios';
+import axios from '../../axios/axios-quizes';
 
 const createOptionControl = (number) => {
   return createControl(
@@ -39,7 +39,6 @@ const createFormControls = () => {
 
 class QuizCreator extends Component {
   state = {
-    urlFirebase: 'https://react-quiz-fbe78-default-rtdb.firebaseio.com/quizes',
     quiz: [],
     isFormValid: false,
     rightAnswerId: 1,
@@ -99,10 +98,10 @@ class QuizCreator extends Component {
   createQuizHandler = async (event) => {
     event.preventDefault();
 
-    const { urlFirebase, quiz } = this.state;
+    const { quiz } = this.state;
 
     try {
-      await axios.post(`${urlFirebase}.json`, quiz);
+      await axios.post(`.json`, quiz);
 
       this.setState({
         quiz: [],

@@ -2,37 +2,42 @@ import React, { Component } from 'react';
 import ActiveQuiz from '../../components/ActiveQuiz/ActiveQuiz';
 import FinishedQuiz from '../../components/FinishedQuiz/FinishedQuiz';
 import classes from './Quiz.module.css';
+import axios from '../../axios/axios-quizes';
+import Loader from '../../components/UI/Loader/Loader';
 
 class Quiz extends Component {
+  // demoquiz = [
+  //   {
+  //     id: 1,
+  //     question: 'Which color does the sky have?',
+  //     rightAnswerId: 3,
+  //     answers: [
+  //       { id: 1, text: 'Red' },
+  //       { id: 2, text: 'Green' },
+  //       { id: 3, text: 'Blue' },
+  //       { id: 4, text: 'Yellow' },
+  //     ],
+  //   },
+  //   {
+  //     id: 2,
+  //     question: 'When Saint-Petersburg was founded?',
+  //     rightAnswerId: 3,
+  //     answers: [
+  //       { id: 1, text: '1701' },
+  //       { id: 2, text: '1702' },
+  //       { id: 3, text: '1703' },
+  //       { id: 4, text: '1707' },
+  //     ],
+  //   },
+  // ]
+
   state = {
     results: {}, // { [id]: 'success' || 'error' }
     isFinished: false,
     activeQuestion: 0,
     answerState: null, // { [id]: 'success' || 'error' }
-    quiz: [
-      {
-        id: 1,
-        question: 'Which color does the sky have?',
-        rightAnswerId: 3,
-        answers: [
-          { id: 1, text: 'Red' },
-          { id: 2, text: 'Green' },
-          { id: 3, text: 'Blue' },
-          { id: 4, text: 'Yellow' },
-        ],
-      },
-      {
-        id: 2,
-        question: 'When Saint-Petersburg was founded?',
-        rightAnswerId: 3,
-        answers: [
-          { id: 1, text: '1701' },
-          { id: 2, text: '1702' },
-          { id: 3, text: '1703' },
-          { id: 4, text: '1707' },
-        ],
-      },
-    ],
+    quiz: [],
+    loading: true,
   };
 
   onAnswerClickHandler = (answerId) => {
@@ -94,8 +99,19 @@ class Quiz extends Component {
     });
   };
 
-  componentDidMount() {
-    console.log('Quiz ID', this.props.match.params.id);
+  async componentDidMount() {
+    try {
+      const quizId = this.props.match.params.id;
+      const response = await axios.get(`${quizId}.json`);
+
+      const quiz = response.data;
+      this.setState({
+        quiz,
+        loading: false,
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   render() {
@@ -103,7 +119,10 @@ class Quiz extends Component {
       <div className={classes.Quiz}>
         <div className={classes.QuizWrapper}>
           <h1>Answer all the questions</h1>
-          {this.state.isFinished ? (
+
+          {this.state.loading ? (
+            <Loader />
+          ) : this.state.isFinished ? (
             <FinishedQuiz
               results={this.state.results}
               quiz={this.state.quiz}
