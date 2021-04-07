@@ -168,7 +168,7 @@ class QuizCreator extends Component {
             {this.renderControls()}
 
             <Select
-              label="Chose the correct answer"
+              label="Choose the correct answer"
               value={this.state.rightAnswerId}
               onChange={this.selectChangeHandler}
               options={[
